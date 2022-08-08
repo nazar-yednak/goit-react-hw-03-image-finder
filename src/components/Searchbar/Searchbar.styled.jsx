@@ -4,6 +4,7 @@ export const SearchbarStyled = styled.header`
   top: 0;
   left: 0;
   position: sticky;
+  z-index: 1100;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,8 +32,6 @@ export const SearchFormButton = styled.button`
   width: 48px;
   height: 48px;
   border: 0;
-  background-image: url('../search_icon.png');
-
   background-size: 40%;
   background-repeat: no-repeat;
   background-position: center;
