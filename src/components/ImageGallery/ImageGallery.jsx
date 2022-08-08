@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { ImageGalleryStyle } from './ImageGallery.styled';
 import LoaderSpinner from '../Loader/Loader';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
-import fetchImage from 'components/API/Api';
+import fetchImage from 'Api';
 import Modal from 'components/Modal/Modal';
+
 import PropTypes from 'prop-types';
 
 class ImageGallery extends Component {
@@ -13,23 +14,36 @@ class ImageGallery extends Component {
     largeImageTags: '',
     loading: false,
     showModal: false,
+    page: 1,
   };
 
   async componentDidUpdate(prevProps) {
-    if (
-      prevProps.searchName !== this.props.searchName ||
-      prevProps.page !== this.props.page
-    ) {
+    if (prevProps.searchName !== this.props.searchName) {
       this.setState({ loading: true });
       try {
         const imageArray = await fetchImage(
           this.props.searchName,
           this.props.page
         );
-
-        this.setState({
-          imageArray,
-        });
+        this.setState(prevState => ({
+          imageArray: imageArray,
+        }));
+      } catch (error) {
+        this.setState({ error });
+      } finally {
+        this.setState({ loading: false });
+      }
+    }
+    if (prevProps.page !== this.props.page) {
+      this.setState({ loading: true });
+      try {
+        const imageArray = await fetchImage(
+          this.props.searchName,
+          this.props.page
+        );
+        this.setState(prevState => ({
+          imageArray: [...this.state.imageArray, ...imageArray],
+        }));
       } catch (error) {
         this.setState({ error });
       } finally {
@@ -50,8 +64,10 @@ class ImageGallery extends Component {
       largeImageTags: item.tags,
     }));
   };
+
   render() {
     const { imageArray, showModal } = this.state;
+    // console.log(this.prevProps.imageArray);
     return (
       <>
         {this.state.loading && <LoaderSpinner />}

@@ -4,5 +4,5 @@ export const Loader = styled.div`
   margin-left: auto;
   position: fixed;
   left: 50%;
-  top: 50%;
+  top: 90%;
 `;

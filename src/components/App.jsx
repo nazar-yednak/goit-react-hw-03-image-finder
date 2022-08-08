@@ -20,7 +20,6 @@ class App extends Component {
       page: 1,
     });
   };
-
   loadMore = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
@@ -28,16 +27,17 @@ class App extends Component {
   };
 
   render() {
-    const { showModal } = this.state;
+    const { showModal, searchName } = this.state;
+
     return (
       <>
         <Searchbar onSubmit={this.handelFormSubmit} />
         <ImageGallery searchName={this.state.searchName} page={this.state.page}>
           <ImageGalleryItem />
+          {searchName && <Button onLoad={this.loadMore} />}
         </ImageGallery>
-
+        {searchName && <Button onLoad={this.loadMore} />}
         {showModal && <Modal onClose={this.toggleModal}></Modal>}
-        {this.state.searchName && <Button onLoad={this.loadMore} />}
       </>
     );
   }
