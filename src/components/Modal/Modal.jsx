@@ -1,22 +1,32 @@
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
-// import { ThreeDots } from 'react-loader-spinner';
+import PropTypes from 'prop-types';
 import { ModalBackDrop, ModalContent } from './Modal.styled';
 
 const modalRoot = document.querySelector('#modal-root');
 
 class Modal extends Component {
   componentDidMount() {
-    window.addEventListener('keydown', e => {
-      if (e.code === 'Escape') {
-        this.props.onClose(e);
-        console.log('closed esc');
-      }
-    });
+    window.addEventListener('keydown', this.handleKeyDown);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
+  }
+  handleKeyDown = e => {
+    if (e.code === 'Escape') {
+      this.props.onClose();
+    }
+  };
+  handlerClickBackDrop = event => {
+    if (event.currentTarget === event.target) {
+      this.props.onClose();
+    }
+  };
+
   render() {
     return createPortal(
-      <ModalBackDrop>
+      <ModalBackDrop onClick={this.handlerClickBackDrop}>
         <ModalContent>{this.props.children}</ModalContent>
       </ModalBackDrop>,
       modalRoot
@@ -24,5 +34,7 @@ class Modal extends Component {
   }
 }
 
-//  <ThreeDots color="#00BFFF" height={80} width={80} />;
 export default Modal;
+Modal.propTypes = {
+  onClose: PropTypes.func,
+};

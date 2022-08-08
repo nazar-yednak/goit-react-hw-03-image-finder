@@ -1,13 +1,29 @@
 import React, { Component } from 'react';
 import Modal from './Modal/Modal';
-
+import Searchbar from './Searchbar/Searchbar';
+import ImageGallery from './ImageGallery/ImageGallery';
+import Button from './Button/Button';
+import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
+// import { ReactComponent as Search } from './icons';
+import 'react-toastify/dist/ReactToastify.css';
+// import LoaderSpinner from './Loader/Loader ';
+// import axios from 'axios';
 class App extends Component {
   state = {
-    showModal: false,
+    // showModal: false,
+    page: 1,
+    searchName: '',
   };
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
+  handelFormSubmit = searchName => {
+    this.setState({
+      searchName,
+      page: 1,
+    });
+  };
+
+  loadMore = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
     }));
   };
 
@@ -15,23 +31,13 @@ class App extends Component {
     const { showModal } = this.state;
     return (
       <>
-        <button type="button" onClick={this.toggleModal}>
-          open modal
-        </button>
-        {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <h1>Привіт це контент модалки як дитина</h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. At
-              voluptas perferendis, itaque dignissimos aliquid nobis temporibus
-              quidem recusandae tempore voluptatibus id, ut atque a, harum sed
-              dolore illum quia aperiam.
-            </p>
-            <button type="button" onClick={this.toggleModal}>
-              close modal
-            </button>
-          </Modal>
-        )}
+        <Searchbar onSubmit={this.handelFormSubmit} />
+        <ImageGallery searchName={this.state.searchName} page={this.state.page}>
+          <ImageGalleryItem />
+        </ImageGallery>
+
+        {showModal && <Modal onClose={this.toggleModal}></Modal>}
+        {this.state.searchName && <Button onLoad={this.loadMore} />}
       </>
     );
   }
