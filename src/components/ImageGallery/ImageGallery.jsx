@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { ImageGalleryStyle } from './ImageGallery.styled';
 import LoaderSpinner from '../Loader/Loader';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
-import fetchImage from 'Api';
+import fetchImage from 'Api/Api';
 import Modal from 'components/Modal/Modal';
-
+import Button from '../Button/Button';
 import PropTypes from 'prop-types';
 
 class ImageGallery extends Component {
@@ -66,18 +66,20 @@ class ImageGallery extends Component {
   };
 
   render() {
-    const { imageArray, showModal } = this.state;
+    const { imageArray, showModal, loading } = this.state;
     // console.log(this.prevProps.imageArray);
     return (
       <>
-        {this.state.loading && <LoaderSpinner />}
         <ImageGalleryStyle>
           <ImageGalleryItem
             imageArray={imageArray}
             onOpenModal={this.toggleModal}
           />
         </ImageGalleryStyle>
-
+        {loading && <LoaderSpinner />}
+        {imageArray.length > 0 && !loading ? (
+          <Button onLoad={this.props.onLoad} />
+        ) : null}
         {showModal && (
           <Modal onClose={this.closeModal}>
             <img

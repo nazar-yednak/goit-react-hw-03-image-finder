@@ -6,7 +6,7 @@ class LoaderSpinner extends Component {
   render() {
     return (
       <Loader>
-        <TailSpin color="#00BFFF" height={50} width={50} />
+        <TailSpin color="#00BFFF" height={100} width={100} />
       </Loader>
     );
   }

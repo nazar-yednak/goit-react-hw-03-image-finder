@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Modal from './Modal/Modal';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
-import Button from './Button/Button';
+
 import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
 // import { ReactComponent as Search } from './icons';
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,16 +27,19 @@ class App extends Component {
   };
 
   render() {
-    const { showModal, searchName } = this.state;
+    const { showModal } = this.state;
 
     return (
       <>
         <Searchbar onSubmit={this.handelFormSubmit} />
-        <ImageGallery searchName={this.state.searchName} page={this.state.page}>
+        <ImageGallery
+          searchName={this.state.searchName}
+          page={this.state.page}
+          onLoad={this.loadMore}
+        >
           <ImageGalleryItem />
-          {searchName && <Button onLoad={this.loadMore} />}
         </ImageGallery>
-        {searchName && <Button onLoad={this.loadMore} />}
+
         {showModal && <Modal onClose={this.toggleModal}></Modal>}
       </>
     );
