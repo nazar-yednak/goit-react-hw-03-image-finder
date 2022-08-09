@@ -10,6 +10,7 @@ export const ModalBackDrop = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1200;
 `;
 export const ModalContent = styled.div`
   max-width: calc(100vw - 48px);

@@ -18,13 +18,11 @@ class ImageGallery extends Component {
   };
 
   async componentDidUpdate(prevProps) {
-    if (prevProps.searchName !== this.props.searchName) {
+    const { searchName, page } = this.props;
+    if (prevProps.searchName !== searchName) {
       this.setState({ loading: true });
       try {
-        const imageArray = await fetchImage(
-          this.props.searchName,
-          this.props.page
-        );
+        const imageArray = await fetchImage(searchName, page);
         this.setState(prevState => ({
           imageArray: imageArray,
         }));
@@ -34,15 +32,13 @@ class ImageGallery extends Component {
         this.setState({ loading: false });
       }
     }
-    if (prevProps.page !== this.props.page) {
+
+    if (prevProps.page !== page) {
       this.setState({ loading: true });
       try {
-        const imageArray = await fetchImage(
-          this.props.searchName,
-          this.props.page
-        );
+        const imageArray = await fetchImage(searchName, page);
         this.setState(prevState => ({
-          imageArray: [...this.state.imageArray, ...imageArray],
+          imageArray: [...prevState.imageArray, ...imageArray],
         }));
       } catch (error) {
         this.setState({ error });

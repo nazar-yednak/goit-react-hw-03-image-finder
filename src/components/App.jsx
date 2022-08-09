@@ -27,14 +27,14 @@ class App extends Component {
   };
 
   render() {
-    const { showModal } = this.state;
+    const { showModal, searchName, page } = this.state;
 
     return (
       <>
         <Searchbar onSubmit={this.handelFormSubmit} />
         <ImageGallery
-          searchName={this.state.searchName}
-          page={this.state.page}
+          searchName={searchName}
+          page={page}
           onLoad={this.loadMore}
         >
           <ImageGalleryItem />
